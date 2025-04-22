@@ -130,7 +130,7 @@ const CreateLogo = () => {
       setSelectedCategory(null);
       setIsActive(true);
       setErrors({});
-      navigate("/admin/logos");
+      navigate("/logo/list");
     } catch (error) {
       console.error("Error details:", {
         message: error.message,
@@ -182,7 +182,9 @@ const CreateLogo = () => {
                       classNamePrefix="react-select"
                     />
                     {errors.category && (
-                      <p className="mt-2 text-sm text-red-500">{errors.category}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.category}
+                      </p>
                     )}
                   </div>
                   <div className="flex items-center justify-between">

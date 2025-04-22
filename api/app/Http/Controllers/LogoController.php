@@ -24,8 +24,8 @@ class LogoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|image ', // Added mime types and size limit
-            'category' => 'required|string|max:255',
+            'image' => 'nullable|image ', // Added mime types and size limit
+            'category' => 'nullable|string|max:255',
             'status' => 'boolean',
         ]);
 
