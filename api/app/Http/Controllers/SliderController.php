@@ -25,7 +25,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'required|image',
+            'image' => 'required|file',
             'small_image' => 'nullable|image',
             'category' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',
@@ -66,7 +66,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'sometimes|image',
+            'image' => 'sometimes|file',
             'small_image' => 'nullable|image',
             'category' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',

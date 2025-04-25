@@ -13,16 +13,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::apiResource('logos', LogoController::class);
 
-
-Route::prefix('sliders')->group(function () {
-    Route::get('/', [SliderController::class, 'index'])->name('sliders.index');
-    Route::post('/', [SliderController::class, 'store'])->name('sliders.store');
-    Route::get('/{slider}', [SliderController::class, 'show'])->name('sliders.show');
-    Route::put('/{slider}', [SliderController::class, 'update'])->name('sliders.update');
-    Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('sliders.destroy');
-});
-
-
 Route::prefix('sliders')->group(function () {
     Route::get('/', [SliderController::class, 'index'])->name('sliders.index');
     Route::post('/', [SliderController::class, 'store'])->name('sliders.store');

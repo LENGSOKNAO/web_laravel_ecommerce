@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import LayoutAdmin from "../../../Layouts/LayoutAdmin";
 import Select from "react-select";
@@ -285,7 +284,9 @@ const CreateBanner = () => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition-colors"
                     />
                     {errors.description && (
-                      <p className="mt-2 text-sm text-red-500">{errors.description}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.description}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -312,7 +313,9 @@ const CreateBanner = () => {
                       classNamePrefix="react-select"
                     />
                     {errors.category && (
-                      <p className="mt-2 text-sm text-red-500">{errors.category}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.category}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -327,10 +330,13 @@ const CreateBanner = () => {
                       placeholder="Select brand..."
                       styles={customSelectStyles}
                       className="react-select-container"
-                      class стендPrefix="react-select"
+                      class
+                      стендPrefix="react-select"
                     />
                     {errors.brand && (
-                      <p className="mt-2 text-sm text-red-500">{errors.brand}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.brand}
+                      </p>
                     )}
                   </div>
                   <div>
@@ -449,7 +455,7 @@ const CreateBanner = () => {
                               <span>Upload a file</span>
                               <input
                                 type="file"
-                                accept="image/*"
+                                accept="file/*"
                                 onChange={handleDisplayImageChange}
                                 className="sr-only"
                               />
@@ -463,7 +469,9 @@ const CreateBanner = () => {
                       )}
                     </div>
                     {errors.image && (
-                      <p className="mt-2 text-sm text-red-500">{errors.image}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.image}
+                      </p>
                     )}
                   </div>
 
@@ -554,7 +562,9 @@ const CreateBanner = () => {
                       )}
                     </div>
                     {errors.small_image && (
-                      <p className="mt-2 text-sm text-red-500">{errors.small_image}</p>
+                      <p className="mt-2 text-sm text-red-500">
+                        {errors.small_image}
+                      </p>
                     )}
                   </div>
                 </div>

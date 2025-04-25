@@ -1,10 +1,14 @@
-import React from 'react'
-import Layout from '../Layouts/Layout'
+import React from "react";
+import Layout from "../Layouts/Layout";
+import Banner from "../Components/Home/Banner";
 
 const Home = () => {
   return (
-     <Layout></Layout>
-  )
-}
+    <Layout>
+      {" "}
+      <Banner />{" "}
+    </Layout>
+  );
+};
 
-export default Home
+export default Home;

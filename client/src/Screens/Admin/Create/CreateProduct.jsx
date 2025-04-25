@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import LayoutAdmin from "../../../Layouts/LayoutAdmin";
 import Select from "react-select";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
   const [displayImage, setDisplayImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -289,6 +291,7 @@ const CreateProduct = () => {
       setSelectedSizes([]);
       setIsActive(true);
       alert("Product created successfully!");
+      navigate("/product/list");
     } catch (error) {
       if (error.response) {
         if (error.response.status === 422) {
@@ -390,7 +393,7 @@ const CreateProduct = () => {
               </div>
               <div className="p-8 border-b border-gray-200">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">
-                  Categories Colors  Sizes & Brand
+                  Categories Colors Sizes & Brand
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
@@ -585,7 +588,7 @@ const CreateProduct = () => {
               </div>
               <div className="p-8 border-b border-gray-200">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">
-                Publish Date & Time & Status
+                  Publish Date & Time & Status
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>

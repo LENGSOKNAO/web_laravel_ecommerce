@@ -42,6 +42,7 @@ const Product = () => {
           brand: product.brand || "-",
           category: product.category || [],
           price: product.regular_price || 0,
+          discount: product.discount || 0, // Add discount field
           size: product.color || [],
           qty: product.qty || 0,
           active: product.status ? 1 : 0,
@@ -85,7 +86,7 @@ const Product = () => {
       filterStatus === "all" ||
       (filterStatus === "published" && product.active === 1) ||
       (filterStatus === "drafts" && product.active === 0) ||
-      (filterStatus === "onDiscount" && product.price < 50);
+      (filterStatus === "onDiscount" && product.discount > 0); // Updated filter logic
 
     const matchesCategory =
       !selectedCategory || product.category.includes(selectedCategory);
@@ -98,7 +99,7 @@ const Product = () => {
   // Sort products
   const sortProducts = (products, key, direction) => {
     return [...products].sort((a, b) => {
-      if (key === "price" || key === "qty") {
+      if (key === "price" || key === "qty" || key === "discount") {
         return direction === "ascending" ? a[key] - b[key] : b[key] - a[key];
       } else {
         const valueA = a[key] ? a[key].toString().toLowerCase() : "";
@@ -171,6 +172,7 @@ const Product = () => {
         "Brand",
         "Category",
         "Price",
+        "Discount",
         "Tags",
         "Published On",
       ],
@@ -180,6 +182,7 @@ const Product = () => {
         product.brand,
         product.category.join(", "),
         `$${product.price.toFixed(2)}`,
+        product.discount > 0 ? `${product.discount}%` : "-", // Include discount in export
         product.tags.join(", "),
         product.publishedOn,
       ]),
@@ -323,7 +326,7 @@ const Product = () => {
                   : "text-gray-600 hover:bg-gray-200"
               }`}
             >
-              On discount ({products.filter((p) => p.price < 50).length})
+              On Discount ({products.filter((p) => p.discount > 0).length})
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -370,7 +373,7 @@ const Product = () => {
               </button>
               <Link
                 to="/product/create"
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-3 py-2 text-sm flex items-center gap-1"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded(md px-3 py-2 text-sm flex items-center gap-1"
               >
                 <IoAddSharp size={16} /> Add product
               </Link>
@@ -407,6 +410,7 @@ const Product = () => {
                   >
                     Price {getSortIndicator("price")}
                   </th>
+
                   <th
                     className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
                     onClick={() => sortData("qty")}
@@ -454,7 +458,9 @@ const Product = () => {
                             className="w-10 h-10 object-cover rounded"
                             src={product.image}
                             alt={product.name}
-                            onError={(e) => (e.target.src = "https://picsum.photos/200")}
+                            onError={(e) =>
+                              (e.target.src = "https://picsum.photos/200")
+                            }
                           />
                           <span className="text-sm text-gray-800">
                             {product.name}
@@ -462,19 +468,20 @@ const Product = () => {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-800">
-                      ${parseFloat(product.price || 0).toFixed(2)}
+                        ${parseFloat(product.price || 0).toFixed(2)}
                       </td>
+
                       <td className="px-4 py-3 text-sm text-gray-800">
                         {product.qty}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex flex-wrap gap-1">
-                          {product.tags.map((tag, i) => (
+                          {product.category.map((e, i) => (
                             <span
                               key={i}
                               className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded"
                             >
-                              {tag}
+                              {e}
                             </span>
                           ))}
                         </div>
@@ -517,7 +524,7 @@ const Product = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="8" className="text-center py-4 text-gray-500">
+                    <td colSpan="9" className="text-center py-4 text-gray-500">
                       No products found
                     </td>
                   </tr>
@@ -528,9 +535,7 @@ const Product = () => {
               <div className="flex justify-between items-center p-4">
                 <div className="text-sm text-gray-600">
                   {filteredProducts.length > 0
-                    ? `Showing ${
-                        indexOfFirstProduct + 1
-                      } to ${Math.min(
+                    ? `Showing ${indexOfFirstProduct + 1} to ${Math.min(
                         indexOfLastProduct,
                         filteredProducts.length
                       )} of ${filteredProducts.length}`

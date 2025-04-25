@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Product from "./Screens/Admin/List/Product";
 import CreateProduct from "./Screens/Admin/Create/CreateProduct";
@@ -23,8 +23,14 @@ import ViewSlider from "./Screens/Admin/List/ViewSlider";
 import EditSlider from "./Screens/Admin/Edit/EditSlider";
 import ViewLogo from "./Screens/Admin/List/ViewLogo";
 import Home from "./Screens/Home";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "swiper/css";
 
 const App = () => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   return (
     <Routes>
       {/* Admin */}
