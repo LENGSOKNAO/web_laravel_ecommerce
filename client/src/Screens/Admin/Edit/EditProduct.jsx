@@ -36,10 +36,41 @@ const EditProduct = () => {
   const [dataWarnings, setDataWarnings] = useState([]);
 
   const categoryOptions = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "accessories", label: "Accessories" },
-    { value: "furniture", label: "Furniture" },
+    { value: "shoes", label: "Shoes" },
+    { value: "new-featured", label: "New & Featured" },
+    { value: "men", label: "Men" },
+    { value: "women", label: "Women" },
+    { value: "kids", label: "Kids" },
+    { value: "sport", label: "Sport" },
+    { value: "basketball", label: "Basketball" },
+    { value: "running", label: "Running" },
+    { value: "training", label: "Training" },
+    { value: "soccer", label: "Soccer" },
+    { value: "golf", label: "Golf" },
+    { value: "lifestyle", label: "Lifestyle" },
+    { value: "jordan", label: "Jordan" },
+    { value: "retro-running", label: "Retro Running" },
+    { value: "sandals-slides", label: "Sandals & Slides" },
+    { value: "equipment", label: "Equipment" },
+    { value: "jackets-vests", label: "Jackets & Vests" },
+    { value: "hoodies-sweatshirts", label: "Hoodies & Sweatshirts" },
+    { value: "pants", label: "Pants" },
+    { value: "shorts", label: "Shorts" },
+    { value: "tops-tees", label: "Tops & Tees" },
+    { value: "matching-sets", label: "Matching Sets" },
+    { value: "bags-backpacks", label: "Bags & Backpacks" },
+    { value: "hats-headwear", label: "Hats & Headwear" },
+    { value: "socks", label: "Socks" },
+    { value: "sunglasses", label: "Sunglasses" },
+    { value: "belts", label: "Belts" },
+    { value: "skirts-dresses", label: "Skirts & Dresses" },
+    { value: "bras", label: "Bras" },
+    { value: "leggings", label: "Leggings" },
+    { value: "teen", label: "Teen" },
+    { value: "big-kids", label: "Big Kids (7-15 yrs)" },
+    { value: "little-kids", label: "Little Kids (3-7 yrs)" },
+    { value: "baby-toddler", label: "Baby & Toddler (0-3 yrs)" },
+    { value: "fan-gear", label: "Fan Gear" },
   ];
 
   const colorOptions = [
@@ -50,12 +81,27 @@ const EditProduct = () => {
   ];
 
   const sizeOptions = [
-    { value: "small", label: "Small" },
-    { value: "medium", label: "Medium" },
-    { value: "large", label: "Large" },
+    // Clothing Sizes
+    { value: "small", label: "SM" },
+    { value: "medium", label: "M" },
+    { value: "large", label: "L" },
     { value: "xl", label: "XL" },
     { value: "xxl", label: "XXL" },
     { value: "xxxl", label: "XXXL" },
+
+    // Shoe Sizes (For men, women, and kids)
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+    { value: "7", label: "7" },
+    { value: "8", label: "8" },
+    { value: "9", label: "9" },
+    { value: "10", label: "10" },
+    { value: "11", label: "11" },
+    { value: "12", label: "12" },
+    { value: "13", label: "13" },
+    { value: "14", label: "14" },
+    { value: "15", label: "15" },
+    { value: "16", label: "16" }, // Optional, in case you want to include larger sizes
   ];
 
   const sizeMapping = {

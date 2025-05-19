@@ -3,3 +3,19 @@
 li:not(:hover) [class*="animate-dropdown"] {
   display: none;
 }
+
+ 
+.mySwiper .swiper-scrollbar {
+  @apply bg-gray-100  rounded-full cursor-pointer opacity-0 transition-opacity duration-300;
+  height: 7px !important;  
+}
+
+ 
+.mySwiper .swiper-scrollbar-drag {
+  @apply bg-gray-400 rounded-full;
+}
+
+ 
+.mySwiper:hover .swiper-scrollbar {
+  @apply opacity-100;
+}

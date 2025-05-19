@@ -1,145 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import LayoutAdmin from "../../../Layouts/LayoutAdmin";
 import { CiEdit, CiExport, CiSearch } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoAddSharp } from "react-icons/io5";
 import { FaRegEye } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import axios from "axios";
+import debounce from "lodash/debounce";
 
 const Order = () => {
-  const [listOrders] = useState([
-    {
-      id: "BM9708",
-      customerName: "Federico Hand",
-      customerImage: "https://picsum.photos/200?random=1",
-      products: [
-        { name: "Men White Slim Fit T-shirt", quantity: "2 Piece" },
-        { name: "HyperX Cloud Gaming Headphone", quantity: "1 Piece" },
-      ],
-      total: 176.41,
-      orderDate: "August 05 2023",
-      paymentStatus: "Completed",
-      orderStatus: "Delivered",
-    },
-    {
-      id: "BM2484",
-      customerName: "Raci Lopez",
-      customerImage: "https://picsum.photos/200?random=2",
-      products: [
-        { name: "Minetta Rattan 5 Swivel Premium Chair", quantity: "3 Piece" },
-        { name: "Sleepify Luno 4 Seater Fabric Sofa", quantity: "1 Piece" },
-      ],
-      total: 3212.00,
-      orderDate: "November 05 2023",
-      paymentStatus: "Failed",
-      orderStatus: "Cancel",
-    },
-    {
-      id: "BM2543",
-      customerName: "James Cantrell",
-      customerImage: "https://picsum.photos/200?random=3",
-      products: [
-        { name: "55 L Laptop Backpack fits upto 16 In.", quantity: "4 Piece" },
-        { name: "Men White Slim Fit T-shirt", quantity: "2 Piece" },
-      ],
-      total: 677.09,
-      orderDate: "March 15 2023",
-      paymentStatus: "Pending",
-      orderStatus: "Ready To Pick",
-    },
-    {
-      id: "BM6754",
-      customerName: "Reginald Brown",
-      customerImage: "https://picsum.photos/200?random=4",
-      products: [
-        { name: "Sleepify Luno 4 Seater Fabric Sofa", quantity: "2 Piece" },
-        { name: "HyperX Cloud Gaming Headphone", quantity: "1 Piece" },
-      ],
-      total: 552.98,
-      orderDate: "December 23 2023",
-      paymentStatus: "Failed",
-      orderStatus: "Cancel",
-    },
-    {
-      id: "BM0863",
-      customerName: "Stacey Smith",
-      customerImage: "https://picsum.photos/200?random=5",
-      products: [
-        { name: "55 L Laptop Backpack fits upto 16 In..", quantity: "1 Piece" },
-      ],
-      total: 233.15,
-      orderDate: "August 23 2020",
-      paymentStatus: "Completed",
-      orderStatus: "Cancel",
-    },
-    {
-      id: "BM6830",
-      customerName: "Alan Green",
-      customerImage: "https://picsum.photos/200?random=6",
-      products: [
-        { name: "Navy Blue Over Size T-shirt For Men", quantity: "5 Piece" },
-        { name: "Men White Slim Fit T-shirt", quantity: "6 Piece" },
-      ],
-      total: 772.44,
-      orderDate: "January 07 2024",
-      paymentStatus: "Pending",
-      orderStatus: "Ready To Pick",
-    },
-    {
-      id: "BM2584",
-      customerName: "Linda Nelson",
-      customerImage: "https://picsum.photos/200?random=7",
-      products: [
-        { name: "Sleepify Luno 4 Seater Fabric Sofa", quantity: "2 Piece" },
-      ],
-      total: 425.56,
-      orderDate: "October 19 2023",
-      paymentStatus: "Completed",
-      orderStatus: "Delivered",
-    },
-    {
-      id: "BM7466",
-      customerName: "Pauline Pfaffe",
-      customerImage: "https://picsum.photos/200?random=8",
-      products: [
-        { name: "Jordan Jumpman MVP Men’s Shoes Size", quantity: "1 Piece" },
-        { name: "Men White Slim Fit T-shirt", quantity: "2 Piece" },
-      ],
-      total: 754.32,
-      orderDate: "April 15 2024",
-      paymentStatus: "Failed",
-      orderStatus: "Dispatched",
-    },
-    {
-      id: "BM2565",
-      customerName: "Ethan Wilder",
-      customerImage: "https://picsum.photos/200?random=9",
-      products: [
-        { name: "55 L Laptop Backpack fits upto 16 In", quantity: "3 Piece" },
-        { name: "HyperX Cloud Gaming Headphone", quantity: "1 Piece" },
-      ],
-      total: 533.76,
-      orderDate: "May 21 2023",
-      paymentStatus: "Completed",
-      orderStatus: "Delivered",
-    },
-  ]);
-
+  const [listOrders, setListOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: "ascending",
   });
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [showAllOrders, setShowAllOrders] = useState(false);
-  const [selectedOrders, setSelectedOrders] = useState([]);
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
   const [selectedOrderStatus, setSelectedOrderStatus] = useState("");
+  const [selectedOrders, setSelectedOrders] = useState([]);
   const ordersPerPage = 10;
+  const navigate = useNavigate();
 
-  // Extract unique payment and order statuses for dropdowns
+  // Fetch orders from API
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/orders`,
+        {
+          headers: { "Cache-Control": "no-cache" },
+        }
+      );
+      const orders = Array.isArray(response.data) ? response.data : [];
+      console.log("Fetched orders:", orders);
+      setListOrders(orders);
+      setError(null);
+    } catch (err) {
+      console.error("API Error:", err.response || err.message);
+      setError(
+        `Failed to fetch orders: ${err.response?.status || err.message}`
+      );
+      setListOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  // Reset page and selected orders when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+    setSelectedOrders([]);
+  }, [searchTerm, selectedPaymentStatus, selectedOrderStatus]);
+
+  // Delete order
+  const handleDeleteOrder = async (orderId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/orders/${orderId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setListOrders((prev) => prev.filter((order) => order.id !== orderId));
+    setSelectedOrders((prev) => prev.filter((id) => id !== orderId));
+    
+  } catch (err) {
+    console.error("Delete Error:", err.response || err.message);
+    const message =
+      err.response?.data?.message || err.message || "Failed to delete order";
+
+    if (err.response?.status === 401) {
+      alert("Session expired. Please log in again.");
+      navigate("/login");
+    } else if (err.response?.status === 403) {
+      alert(
+        "You do not have permission to delete this order. Please contact an admin."
+      );
+    } else {
+      alert(message);
+    }
+  }
+};
+
+  // Extract unique payment and order statuses
   const uniquePaymentStatuses = [
     ...new Set(listOrders.map((order) => order.paymentStatus)),
   ].sort();
@@ -147,30 +103,31 @@ const Order = () => {
     ...new Set(listOrders.map((order) => order.orderStatus)),
   ].sort();
 
-  // Filter orders based on search term, payment status, and order status
+  // Filter orders
   const filteredOrders = listOrders.filter((order) => {
     const searchLower = searchTerm.toLowerCase();
     const matchesSearch =
-      order.id.toLowerCase().includes(searchLower) ||
-      order.customerName.toLowerCase().includes(searchLower) ||
-      order.products.some((prod) =>
-        prod.name.toLowerCase().includes(searchLower)
-      ) ||
-      order.total.toString().includes(searchLower) ||
-      order.orderDate.toLowerCase().includes(searchLower) ||
-      order.paymentStatus.toLowerCase().includes(searchLower) ||
-      order.orderStatus.toLowerCase().includes(searchLower);
+      (order.id?.toString().toLowerCase() || "").includes(searchLower) ||
+      (order.customerName?.toLowerCase() || "").includes(searchLower) ||
+      (Array.isArray(order.products)
+        ? order.products.some((prod) =>
+            (prod.name?.toLowerCase() || "").includes(searchLower)
+          )
+        : false) ||
+      (order.total?.toString() || "").includes(searchLower) ||
+      (order.orderDate?.toLowerCase() || "").includes(searchLower) ||
+      (order.paymentStatus?.toLowerCase() || "").includes(searchLower) ||
+      (order.orderStatus?.toLowerCase() || "").includes(searchLower);
 
     const matchesPaymentStatus =
       !selectedPaymentStatus || order.paymentStatus === selectedPaymentStatus;
-
     const matchesOrderStatus =
       !selectedOrderStatus || order.orderStatus === selectedOrderStatus;
 
     return matchesSearch && matchesPaymentStatus && matchesOrderStatus;
   });
 
-  // Sort filtered orders
+  // Sort orders
   const sortOrders = (orders, key, direction) => {
     return [...orders].sort((a, b) => {
       if (key === "total") {
@@ -189,27 +146,24 @@ const Order = () => {
     ? sortOrders(filteredOrders, sortConfig.key, sortConfig.direction)
     : filteredOrders;
 
-  // Pagination logic
+  // Pagination
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders =
-    showAllOrders && filterStatus === "all"
-      ? sortedOrders
-      : sortedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const currentOrders = sortedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
   // Handlers
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1);
-    setSelectedOrders([]);
-  };
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      setSearchTerm(value);
+      setCurrentPage(1);
+      setSelectedOrders([]);
+    }, 300),
+    []
+  );
 
-  const handleFilterStatus = (status) => {
-    setFilterStatus(status);
-    setCurrentPage(1);
-    setShowAllOrders(status === "all");
-    setSelectedOrders([]);
+  const handleSearch = (e) => {
+    debouncedSearch(e.target.value.trim());
   };
 
   const handleSelectAll = (e) => {
@@ -234,11 +188,9 @@ const Order = () => {
       alert("Please select at least one order to export.");
       return;
     }
-
     const ordersToExport = listOrders.filter((order) =>
       selectedOrders.includes(order.id)
     );
-
     const csvData = [
       [
         "Order ID",
@@ -259,7 +211,6 @@ const Order = () => {
         order.orderStatus,
       ]),
     ];
-
     const csvContent = csvData.map((row) => row.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -313,6 +264,20 @@ const Order = () => {
     setSelectedOrderStatus(e.target.value);
     setCurrentPage(1);
     setSelectedOrders([]);
+  };
+
+  const handleViewOrder = (order) => {
+    if (order.products && order.products.length > 0) {
+      const firstProduct = order.products[0];
+      const productId = firstProduct.id || firstProduct.productId;
+      if (productId) {
+        navigate(`/product/${productId}`);
+      } else {
+        alert("Product ID not found for this order.");
+      }
+    } else {
+      alert("No products found in this order.");
+    }
   };
 
   return (
@@ -373,216 +338,261 @@ const Order = () => {
         </div>
         <div className="flex justify-center bg-white border-t-1 border-gray-200">
           <div className="w-[98%] overflow-x-auto">
-            <table className="w-full table-auto">
-              <thead>
-                <tr className="border-b-1 border-gray-200">
-                  <th className="px-4 py-3 text-left">
-                    <input
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 rounded border-gray-300"
-                      checked={
-                        currentOrders.length > 0 &&
-                        currentOrders.every((order) =>
-                          selectedOrders.includes(order.id)
-                        )
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("id")}
-                  >
-                    Order ID {getSortIndicator("id")}
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("customerName")}
-                  >
-                    Customer Name {getSortIndicator("customerName")}
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase">
-                    Product
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase">
-                    Quantity
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("total")}
-                  >
-                    Total {getSortIndicator("total")}
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("orderDate")}
-                  >
-                    Order Date {getSortIndicator("orderDate")}
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("paymentStatus")}
-                  >
-                    Payment Status {getSortIndicator("paymentStatus")}
-                  </th>
-                  <th
-                    className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
-                    onClick={() => sortData("orderStatus")}
-                  >
-                    Order Status {getSortIndicator("orderStatus")}
-                  </th>
-                  <th className="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentOrders.length > 0 ? (
-                  currentOrders.map((order) => (
-                    <tr
-                      key={order.id}
-                      className="border-b border-gray-200 hover:bg-gray-50"
-                    >
-                      <td className="px-4 py-3">
+            {loading ? (
+              <div className="text-center py-4">
+                <svg
+                  className="animate-spin h-5 w-5 mx-auto text-gray-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+            ) : error ? (
+              <div className="text-center py-4 text-red-600">
+                {error}
+                <button
+                  onClick={fetchOrders}
+                  className="ml-2 text-blue-600 hover:underline"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <>
+                <table className="w-full table-auto">
+                  <thead>
+                    <tr className="border-b-1 border-gray-200">
+                      <th className="px-4 py-3 text-left">
                         <input
                           type="checkbox"
                           className="w-4 h-4 text-blue-600 rounded border-gray-300"
-                          checked={selectedOrders.includes(order.id)}
-                          onChange={() => handleSelectOrder(order.id)}
+                          checked={
+                            currentOrders.length > 0 &&
+                            currentOrders.every((order) =>
+                              selectedOrders.includes(order.id)
+                            )
+                          }
+                          onChange={handleSelectAll}
                         />
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        #{order.id}
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            className="w-8 h-8 object-cover rounded-full"
-                            src={order.customerImage}
-                            alt={order.customerName}
-                          />
-                          <span className="text-sm text-gray-800">
-                            {order.customerName}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        {order.products.map((prod, i) => (
-                          <div key={i}>P{i + 1} - {prod.name}</div>
-                        ))}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        {order.products.map((prod, i) => (
-                          <div key={i}>{prod.quantity}</div>
-                        ))}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        ${order.total.toFixed(2)}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-800">
-                        {order.orderDate}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <span
-                          className={`px-2 py-1 rounded text-xs font-medium ${
-                            order.paymentStatus === "Completed"
-                              ? "bg-green-100 text-green-800"
-                              : order.paymentStatus === "Pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {order.paymentStatus}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <span
-                          className={`px-2 py-1 rounded text-xs font-medium ${
-                            order.orderStatus === "Delivered"
-                              ? "bg-blue-100 text-blue-800"
-                              : order.orderStatus === "Ready To Pick"
-                              ? "bg-gray-100 text-gray-800"
-                              : order.orderStatus === "Dispatched"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {order.orderStatus}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <div className="flex justify-center gap-2">
-                          <button
-                            className="p-2 rounded-full hover:bg-blue-100 transition"
-                            title="View Order"
-                          >
-                            <FaRegEye className="text-blue-600" size={16} />
-                          </button>
-                          <button
-                            className="p-2 rounded-full hover:bg-yellow-100 transition"
-                            title="Edit Order"
-                          >
-                            <CiEdit className="text-yellow-600" size={16} />
-                          </button>
-                          <button
-                            className="p-2 rounded-full hover:bg-red-100 transition"
-                            title="Delete Order"
-                          >
-                            <RiDeleteBin6Line
-                              className="text-red-600"
-                              size={16}
-                            />
-                          </button>
-                        </div>
-                      </td>
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("id")}
+                      >
+                        Order ID {getSortIndicator("id")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("customerName")}
+                      >
+                        Customer Name {getSortIndicator("customerName")}
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase">
+                        Product
+                      </th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase">
+                        Quantity
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("total")}
+                      >
+                        Total {getSortIndicator("total")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("orderDate")}
+                      >
+                        Order Date {getSortIndicator("orderDate")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("paymentStatus")}
+                      >
+                        Payment Status {getSortIndicator("paymentStatus")}
+                      </th>
+                      <th
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 uppercase cursor-pointer hover:bg-gray-100"
+                        onClick={() => sortData("orderStatus")}
+                      >
+                        Order Status {getSortIndicator("orderStatus")}
+                      </th>
+                      <th className="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">
+                        Actions
+                      </th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="10" className="text-center py-4 text-gray-500">
-                      No orders found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            {!showAllOrders && (
-              <div className="flex justify-between items-center p-4">
-                <div className="text-sm text-gray-600">
-                  {filteredOrders.length > 0
-                    ? `1 to ${Math.min(10, filteredOrders.length)} of ${
-                        filteredOrders.length
-                      }`
-                    : "No orders found"}
+                  </thead>
+                  <tbody>
+                    {currentOrders.length > 0 ? (
+                      currentOrders.map((order) => (
+                        <tr
+                          key={order.id}
+                          className="border-b border-gray-200 hover:bg-gray-50"
+                        >
+                          <td className="px-4 py-3">
+                            <input
+                              type="checkbox"
+                              className="w-4 h-4 text-blue-600 rounded border-gray-300"
+                              checked={selectedOrders.includes(order.id)}
+                              onChange={() => handleSelectOrder(order.id)}
+                            />
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            #{order.id}
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <img
+                                className="w-8 h-8 object-cover rounded-full"
+                                src={order.customerImage}
+                                alt={order.customerName}
+                                onError={(e) => {
+                                  e.target.src = "https://picsum.photos/200";
+                                }}
+                              />
+                              <span className="text-sm text-gray-800">
+                                {order.customerName}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            {order.products.map((prod, i) => (
+                              <div key={i}>
+                                P{i + 1} - {prod.name}
+                              </div>
+                            ))}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            {order.products.map((prod, i) => (
+                              <div key={i}>{prod.quantity}</div>
+                            ))}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            ${Number(order.total || 0).toFixed(2)}
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-800">
+                            {order.orderDate}
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <span
+                              className={`px-2 py-1 rounded text-xs font-medium ${
+                                order.paymentStatus === "Completed"
+                                  ? "bg-green-100 text-green-800"
+                                  : order.paymentStatus === "Pending"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {order.paymentStatus}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            <span
+                              className={`px-2 py-1 rounded text-xs font-medium ${
+                                order.orderStatus === "Delivered"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : order.orderStatus === "Ready To Pick"
+                                  ? "bg-gray-100 text-gray-800"
+                                  : order.orderStatus === "Dispatched"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {order.orderStatus}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <div className="flex justify-center gap-2">
+                              <button
+                                className="p-2 rounded-full hover:bg-blue-100 transition"
+                                title="View Order"
+                                onClick={() => handleViewOrder(order)}
+                              >
+                                <FaRegEye className="text-blue-600" size={16} />
+                              </button>
+                              <button
+                                className="p-2 rounded-full hover:bg-yellow-100 transition"
+                                title="Edit Order"
+                              >
+                                <CiEdit className="text-yellow-600" size={16} />
+                              </button>
+                              <button
+                                className="p-2 rounded-full hover:bg-red-100 transition"
+                                title="Delete Order"
+                                onClick={() => handleDeleteOrder(order.id)}
+                              >
+                                <RiDeleteBin6Line
+                                  className="text-red-600"
+                                  size={16}
+                                />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan="10"
+                          className="text-center py-4 text-gray-500"
+                        >
+                          No orders found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+                <div className="flex justify-between items-center p-4">
+                  <div className="text-sm text-gray-600">
+                    {filteredOrders.length > 0
+                      ? `1 to ${Math.min(10, filteredOrders.length)} of ${
+                          filteredOrders.length
+                        }`
+                      : "No orders found"}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                      className={`p-1 ${
+                        currentPage === 1
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      <GoChevronLeft size={16} />
+                    </button>
+                    <span className="text-sm text-gray-600">
+                      {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={currentPage === totalPages || totalPages === 0}
+                      className={`p-1 ${
+                        currentPage === totalPages || totalPages === 0
+                          ? "opacity-50 cursor-not-allowed"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      <GoChevronRight size={16} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 1}
-                    className={`p-1 ${
-                      currentPage === 1
-                        ? "opacity-50 cursor-not-allowed"
-                        : "text-gray-600"
-                    }`}
-                  >
-                    <GoChevronLeft size={16} />
-                  </button>
-                  <span className="text-sm text-gray-600">
-                    {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={handleNextPage}
-                    disabled={currentPage === totalPages || totalPages === 0}
-                    className={`p-1 ${
-                      currentPage === totalPages || totalPages === 0
-                        ? "opacity-50 cursor-not-allowed"
-                        : "text-gray-600"
-                    }`}
-                  >
-                    <GoChevronRight size={16} />
-                  </button>
-                </div>
-              </div>
+              </>
             )}
           </div>
         </div>

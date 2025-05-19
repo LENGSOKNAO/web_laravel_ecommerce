@@ -11,356 +11,241 @@ const user = [
 
 const nav = [
   {
-    nav: "Apple",
+    name: "New",
     path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "iPhone", path: "/" },
-      { name: "iPad", path: "/" },
-      { name: "Watch", path: "/" },
-      { name: "AirPods", path: "/" },
-      { name: "TV & Home", path: "/" },
-      { name: "All Shop", path: "/" },
+    list: [
+      {
+        nav: "New & Featured",
+        path: "/",
+        items: [
+          { name: "New Arrivals", path: "/" },
+          { name: "Best Sellers", path: "/" },
+          { name: "Shop All Sale", path: "/" },
+        ],
+      },
+      {
+        nav: "Gender",
+        path: "/",
+        items: [
+          { name: "Men's", path: "/" },
+          { name: "Women's", path: "/" },
+          { name: "Kid's", path: "/" },
+        ],
+      },
+      {
+        nav: "Trending",
+        path: "/",
+      },
     ],
   },
   {
-    nav: "Samsung",
+    name: "Men",
     path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Galaxy Phones", path: "/" },
-      { name: "Galaxy Tablets", path: "/" },
-      { name: "Galaxy Watch", path: "/" },
-      { name: "Galaxy Buds", path: "/" },
-      { name: "TV & Audio", path: "/" },
-      { name: "All Shop", path: "/" },
+    list: [
+      {
+        nav: "New & Featured",
+        path: "/",
+        items: [
+          { name: "New Arrivals", path: "/" },
+          { name: "Best Sellers", path: "/" },
+          { name: "Shop All Sale", path: "/" },
+        ],
+      },
+      {
+        nav: "Shoes",
+        path: "/",
+        items: [
+          { name: "Jordan", path: "/" },
+          { name: "Lifestyle", path: "/" },
+          { name: "Sandals & Slides", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shoes $100 & Under", path: "/" },
+          { name: "Basketball", path: "/" },
+          { name: "All Shoes", path: "/" },
+        ],
+      },
+      {
+        nav: "Accessories",
+        path: "/",
+        items: [
+          { name: "Socks", path: "/" },
+          { name: "Sunglasses", path: "/" },
+          { name: "Belts", path: "/" },
+          { name: "Hats & Headwear", path: "/" },
+          { name: "Bags & Backpacks", path: "/" },
+        ],
+      },
+      {
+        nav: "Clothing",
+        path: "/",
+        items: [
+          { name: "Tops & Graphic Tees", path: "/" },
+          { name: "Pants", path: "/" },
+          { name: "Hoodies & Sweatshirts", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shoes $100 & Under", path: "/" },
+          { name: "Shorts", path: "/" },
+          { name: "All Clothing", path: "/" },
+        ],
+      },
     ],
   },
   {
-    nav: "Xiaomi",
+    name: "Women",
     path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Mi Phones", path: "/" },
-      { name: "Redmi Phones", path: "/" },
-      { name: "Smartwatches", path: "/" },
-      { name: "Earbuds", path: "/" },
-      { name: "Tablets", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Oppo",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Find Series", path: "/" },
-      { name: "Reno Series", path: "/" },
-      { name: "Smartwatches", path: "/" },
-      { name: "Earbuds", path: "/" },
-      { name: "Tablets", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "OnePlus",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Number Series", path: "/" },
-      { name: "Nord Series", path: "/" },
-      { name: "Smartwatches", path: "/" },
-      { name: "Earbuds", path: "/" },
-      { name: "Tablets", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Nike",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Sneakers", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "New Arrivals", path: "/" },
-      { name: "Baskbetall", path: "/" },
-      { name: "Running Shoes", path: "/" },
-      { name: "Golf", path: "/" },
-      { name: "Training", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Adidas",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Sneakers", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Originals", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "New Arrivals", path: "/" },
-      { name: "Baskbetall", path: "/" },
-      { name: "Running Shoes", path: "/" },
-      { name: "Golf", path: "/" },
-      { name: "More Sport", path: "/" },
-      { name: "Training", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "NewBalance",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Lifestyle Shoes", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "New Arrivals", path: "/" },
-      { name: "Basketball Shoes", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sportswear", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Puma",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Sneakers", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sportswear", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "New Arrivals", path: "/" },
-      { name: "Baskbetall", path: "/" },
-      { name: "Running Shoes", path: "/" },
-      { name: "Golf", path: "/" },
-      { name: "Motorsport", path: "/" },
-      { name: "More Sport", path: "/" },
-      { name: "Training", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Qiaodan",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Basketball Shoes", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sportswear", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Tesla",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Electric Vehicles", path: "/" },
-      { name: "Charging Solutions", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "BMW",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Vehicles", path: "/" },
-      { name: "Performance Parts", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Mercedes-Benz",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Vehicles", path: "/" },
-      { name: "Luxury Accessories", path: "/" },
-      { name: "Parts", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Toyota",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Vehicles", path: "/" },
-      { name: "Hybrid Models", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Ford",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Trucks", path: "/" },
-      { name: "Performance Parts", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Apparel", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
+    list: [
+      {
+        nav: "New & Featured",
+        path: "/",
+        items: [
+          { name: "New Arrivals", path: "/" },
+          { name: "Best Sellers", path: "/" },
+          { name: "Shop All Sale", path: "/" },
+        ],
+      },
 
-  {
-    nav: "PetSmart",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Pet Food", path: "/" },
-      { name: "Toys", path: "/" },
-      { name: "Grooming", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
+      {
+        nav: "  Shop by Color",
+        path: "/",
+        items: [
+          { name: "Bold Blues", path: "/" },
+          { name: "Neon Edit", path: "/" },
+          { name: "Timeless Neutrals", path: "/" },
+        ],
+      },
+      {
+        nav: "Shoes",
+        path: "/",
+        items: [
+          { name: "Jordan", path: "/" },
+          { name: "Lifestyle", path: "/" },
+          { name: "Sandals & Slides", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shoes $100 & Under", path: "/" },
+          { name: "Basketball", path: "/" },
+          { name: "All Shoes", path: "/" },
+        ],
+      },
+      {
+        nav: "Accessories",
+        path: "/",
+        items: [
+          { name: "Socks", path: "/" },
+          { name: "Sunglasses", path: "/" },
+          { name: "Belts", path: "/" },
+          { name: "Hats & Headwear", path: "/" },
+          { name: "Bags & Backpacks", path: "/" },
+        ],
+      },
+      {
+        nav: "Clothing",
+        path: "/",
+        items: [
+          { name: "Tops & Graphic Tees", path: "/" },
+          { name: "Pants", path: "/" },
+          { name: "Hoodies & Sweatshirts", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shoes $100 & Under", path: "/" },
+          { name: "Shorts", path: "/" },
+          { name: "All Clothing", path: "/" },
+        ],
+      },
     ],
   },
   {
-    nav: "Petco",
+    name: "kids",
     path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Pet Food", path: "/" },
-      { name: "Toys", path: "/" },
-      { name: "Health & Wellness", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Chewy",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Pet Food", path: "/" },
-      { name: "Toys", path: "/" },
-      { name: "Pharmacy", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Ruffwear",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Dog Gear", path: "/" },
-      { name: "Harnesses", path: "/" },
-      { name: "Leashes", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Kurgo",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Travel Gear", path: "/" },
-      { name: "Harnesses", path: "/" },
-      { name: "Toys", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-
-  {
-    nav: "Rolex",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Watches", path: "/" },
-      { name: "Jewelry", path: "/" },
-      { name: "Luxury Collections", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Cartier",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Watches", path: "/" },
-      { name: "Jewelry", path: "/" },
-      { name: "Love Collection", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Tiffany & Co.",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Jewelry", path: "/" },
-      { name: "Watches", path: "/" },
-      { name: "Engagement", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Patek Philippe",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Watches", path: "/" },
-      { name: "Complications", path: "/" },
-      { name: "Jewelry", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
-    ],
-  },
-  {
-    nav: "Pandora",
-    path: "/",
-    items: [
-      { name: "New Arrivals", path: "/" },
-      { name: "Charms", path: "/" },
-      { name: "Jewelry", path: "/" },
-      { name: "Bracelets", path: "/" },
-      { name: "Accessories", path: "/" },
-      { name: "Sale", path: "/" },
-      { name: "All Shop", path: "/" },
+    list: [
+      {
+        nav: "New & Featured",
+        path: "/",
+        items: [
+          { name: "New Arrivals", path: "/" },
+          { name: "Best Sellers", path: "/" },
+          { name: "Latest Drops", path: "/" },
+          { name: "Mothers Day Shop", path: "/" },
+          { name: "Summer Shop", path: "/" },
+          { name: "Shop All Sale", path: "/" },
+        ],
+      },
+      {
+        nav: "Shop by Color",
+        path: "/",
+        items: [
+          { name: "Bold Blues", path: "/" },
+          { name: "Neon Edit", path: "/" },
+          { name: "Timeless Neutrals", path: "/" },
+        ],
+      },
+      {
+        nav: "Shop By Sport",
+        path: "/",
+        items: [
+          { name: "Gymnastics", path: "/" },
+          { name: "Basketball", path: "/" },
+          { name: "Football", path: "/" },
+          { name: "Running", path: "/" },
+          { name: "Soccer", path: "/" },
+        ],
+      },
+      {
+        nav: "Shoes",
+        path: "/",
+        items: [
+          { name: "Jordan", path: "/" },
+          { name: "Lifestyle", path: "/" },
+          { name: "Sandals & Slides", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shoes $100 & Under", path: "/" },
+          { name: "Basketball", path: "/" },
+          { name: "Retro Running", path: "/" },
+          { name: "Running", path: "/" },
+          { name: "Soccer", path: "/" },
+          { name: "All Shoes", path: "/" },
+        ],
+      },
+      {
+        nav: "Clothing",
+        path: "/",
+        items: [
+          { name: "Tops & Graphic Tees", path: "/" },
+          { name: "Pants", path: "/" },
+          { name: "Hoodies & Sweatshirts", path: "/" },
+          { name: "Training & Gym", path: "/" },
+          { name: "Shorts", path: "/" },
+          { name: "Bras", path: "/" },
+          { name: "Jackets & Vests", path: "/" },
+          { name: "Pants & Tights", path: "/" },
+          { name: "Matching Sets", path: "/" },
+          { name: "Skirts & Dresses", path: "/" },
+          { name: "Jordan", path: "/" },
+          { name: "All Clothing", path: "/" },
+        ],
+      },
+      {
+        nav: "Accessories",
+        path: "/",
+        items: [
+          { name: "Socks", path: "/" },
+          { name: "Sunglasses", path: "/" },
+          { name: "Belts", path: "/" },
+          { name: "Hats & Headwear", path: "/" },
+          { name: "Bags & Backpacks", path: "/" },
+        ],
+      },
+      {
+        nav: "Shop by Age",
+        path: "/",
+        items: [
+          { name: "Teen", path: "/" },
+          { name: "Big Kids (7-15 yrs)", path: "/" },
+          { name: "Little Kids (3-7 yrs)", path: "/" },
+          { name: "Baby & Toddler (0-3 yrs)", path: "/" },
+        ],
+      },
     ],
   },
 ];
-
 const Footer = () => {
   const [logo, setLogo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -412,73 +297,82 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="flex justify-center   ">
-      <div className=" w-[80%] flex flex-col items-center">
-        {/* Logo Section */}
-        <div>
-          {isLoading ? (
-            <p>Loading logo...</p>
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : logo.length > 0 ? (
-            logo.map((item) => (
-              <Link to="/" key={item.id} aria-label="Home">
+    <footer className="py-10">
+      <div className="flex justify-center  py-10 ">
+        <div className=" w-[80%] flex flex-col items-center">
+          {/* Logo Section */}
+          <div>
+            {isLoading ? (
+              <p>Loading logo...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : logo.length > 0 ? (
+              logo.map((item) => (
+                <Link to="/" key={item.id} aria-label="Home">
+                  <img
+                    src={item.image}
+                    alt="Logo"
+                    className=" w-full h-auto"
+                    onError={handleImageError}
+                  />
+                </Link>
+              ))
+            ) : (
+              <Link to="/" aria-label="Home">
                 <img
-                  src={item.image}
-                  alt="Logo"
-                  className=" w-[120px] h-auto"
-                  onError={handleImageError}
+                  src="https://via.placeholder.com/100?text=Placeholder"
+                  alt="Placeholder Logo"
+                  className="w-[100px] h-auto"
                 />
               </Link>
-            ))
-          ) : (
-            <Link to="/" aria-label="Home">
-              <img
-                src="https://via.placeholder.com/100?text=Placeholder"
-                alt="Placeholder Logo"
-                className="w-[100px] h-auto"
-              />
-            </Link>
-          )}
-        </div>
-        {/* User  */}
-        <div className="py-[30px]" >
-          <ul className="flex   ">
-            {user.map((item, index) => (
-              <li
-                key={item.name}
-                className="hover:text-gray-500 px-4 text-md font-[500]"
-              >
-                <Link to={item.path}>{item.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Footer nav */}
+            )}
+          </div>
+          {/* User  */}
+          <div className="py-[20px]">
+            <ul className="flex">
+              {user.map((item, index) => (
+                <li
+                  key={item.name}
+                  className="hover:text-gray-500 px-4 text-sm font-[500]"
+                >
+                  <Link to={item.path}>{item.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Footer nav */}
 
-        {/* Navigation List */}
-        <div className="py-[50px]">
-          <ul className="flex flex-wrap justify-between gap-[50px] text-sm bg-white font-medium">
-            {nav.map((item, index) => (
-              <li className="" key={index}>
-                <Link to={item.path} className="text-xl hover:text-gray-600 " >{item.nav}</Link>
-
-                <ul className="text-gray-500">
-                  {item.items.map((nestedItem, i) => (
-                    <li key={i} className="hover:text-gray-900 hover:underline">
-                      <Link
-                        to={nestedItem.path}
-                        className="block text-[13px] py-1 font-medium"
+          {/* Navigation List */}
+          <div className="py-3">
+            <ul className="flex flex-wrap justify-between gap-[100px] text-sm bg-white font-medium">
+              {nav.map((item, index) => (
+                <li className="" key={index}>
+                  <Link to={item.path} className="text-xl hover:text-gray-600 ">
+                    {item.name}
+                  </Link>
+                  <ul className="text-gray-500">
+                    {item.list.map((nestedItem, i) => (
+                      <li
+                        key={i}
+                        className="hover:text-gray-900 hover:underline"
                       >
-                        {nestedItem.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
+                        <Link
+                          to={nestedItem.path}
+                          className="block text-[13px] py-1 font-medium"
+                        >
+                          {nestedItem.nav}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
+      </div>
+      <div className=" px-5 py-[100px]">
+        <p className="border-t-1 border-[rgb(112,112,114)] py-4 text-sm font-[500] text-[rgb(112,112,114)]">© 2025,  All right reserved By Leng soknao And Rith </p>
       </div>
     </footer>
   );

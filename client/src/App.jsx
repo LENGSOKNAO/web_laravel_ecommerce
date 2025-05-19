@@ -26,6 +26,14 @@ import Home from "./Screens/Home";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "swiper/css";
+import Shop from "./Screens/Shop";
+import Cart from "./Screens/Cart";
+import CartPage from "./Screens/CartPage";
+import WishlistPage from "./Screens/WishlistPage";
+import Checkout from "./Screens/Checkout";
+import Login from "./Screens/Login";
+import OrderConfirmation from "./Screens/OrderConfirmation";
+import ProductDetails from "./Screens/Admin/List/ProductDetails";
 
 const App = () => {
   useEffect(() => {
@@ -52,6 +60,7 @@ const App = () => {
       <Route path="/logo/edit/:id" element={<EditLogo />} />
       <Route path="/logo/:id" element={<ViewLogo />} />
       <Route path="/order" element={<Order />} />
+      <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/email" element={<Email />} />
       <Route path="/customer" element={<Customer />} />
       <Route path="/setting" element={<Settings />} />
@@ -59,6 +68,13 @@ const App = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       {/* client */}
       <Route path="/" element={<Home />} />
+      <Route path="/shop" element={<Shop />} />
+      <Route path="/:id" element={<Cart />} />
+      <Route path="/cart" element={<CartPage />} />
+      <Route path="/wishlist" element={<WishlistPage />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/order-confirmation" element={<OrderConfirmation />} />
     </Routes>
   );
 };

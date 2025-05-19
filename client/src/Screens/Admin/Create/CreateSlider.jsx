@@ -100,7 +100,7 @@ const CreateSlider = () => {
   const handleDisplayImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
+      if (file.size > 50 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
           image: "Image size must be less than 2MB",
@@ -114,7 +114,7 @@ const CreateSlider = () => {
 
   const handleGalleryImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files[0].size > 2 * 1024 * 1024) {
+    if (files[0].size > 50 * 1024 * 1024) {
       setErrors((prev) => ({
         ...prev,
         small_image: "Image size must be less than 2MB",
@@ -143,7 +143,7 @@ const CreateSlider = () => {
     setIsDragging(false);
     const file = e.dataTransfer.files[0];
     if (file?.type.startsWith("image/")) {
-      if (file.size > 2 * 1024 * 1024) {
+      if (file.size > 50 * 1024 * 1024) {
         setErrors((prev) => ({
           ...prev,
           image: "Image size must be less than 2MB",
@@ -161,7 +161,7 @@ const CreateSlider = () => {
     const files = Array.from(e.dataTransfer.files).filter((file) =>
       file.type.startsWith("image/")
     );
-    if (files.length > 0 && files[0].size > 2 * 1024 * 1024) {
+    if (files.length > 0 && files[0].size > 50 * 1024 * 1024) {
       setErrors((prev) => ({
         ...prev,
         small_image: "Image size must be less than 2MB",
@@ -490,7 +490,7 @@ const CreateSlider = () => {
                               <span>Upload a file</span>
                               <input
                                 type="file"
-                                accept="image/*"
+                                accept="file/*"
                                 onChange={handleDisplayImageChange}
                                 className="sr-only"
                                 disabled={isSubmitting}

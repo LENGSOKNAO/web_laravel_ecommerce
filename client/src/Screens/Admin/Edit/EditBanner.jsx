@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import LayoutAdmin from "../../../Layouts/LayoutAdmin";
 import Select from "react-select";
 import axios from "axios";
@@ -15,6 +15,7 @@ const EditBanner = () => {
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isActive, setIsActive] = useState(null);
+  const nav = useNavigate();
   const [bannerData, setBannerData] = useState({
     name: "",
     description: "",
@@ -23,19 +24,100 @@ const EditBanner = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // Options data
   const categoryOptions = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
+    { value: "new-arrivals", label: "New Arrivals" },
+    { value: "iphone", label: "iPhone" },
+    { value: "ipad", label: "iPad" },
+    { value: "watch", label: "Watch" },
+    { value: "airpods", label: "AirPods" },
+    { value: "tv-home", label: "TV & Home" },
+    { value: "all-shop", label: "All Shop" },
+    { value: "galaxy-phones", label: "Galaxy Phones" },
+    { value: "galaxy-tablets", label: "Galaxy Tablets" },
+    { value: "galaxy-watch", label: "Galaxy Watch" },
+    { value: "galaxy-buds", label: "Galaxy Buds" },
+    { value: "tv-audio", label: "TV & Audio" },
+    { value: "mi-phones", label: "Mi Phones" },
+    { value: "redmi-phones", label: "Redmi Phones" },
+    { value: "smartwatches", label: "Smartwatches" },
+    { value: "earbuds", label: "Earbuds" },
+    { value: "tablets", label: "Tablets" },
+    { value: "find-series", label: "Find Series" },
+    { value: "reno-series", label: "Reno Series" },
+    { value: "number-series", label: "Number Series" },
+    { value: "nord-series", label: "Nord Series" },
+    { value: "apparel", label: "Apparel" },
     { value: "accessories", label: "Accessories" },
-    { value: "furniture", label: "Furniture" },
+    { value: "sale", label: "Sale" },
+    { value: "basketball", label: "Basketball" },
+    { value: "running-shoes", label: "Running Shoes" },
+    { value: "golf", label: "Golf" },
+    { value: "trending", label: "Trending" },
+    { value: "training", label: "Training" },
+    { value: "more-sport", label: "More Sport" },
+    { value: "motorsport", label: "Motorsport" },
+    { value: "soccer", label: "Soccer" },
+    { value: "electric-vehicles", label: "Electric Vehicles" },
+    { value: "charging-solutions", label: "Charging Solutions" },
+    { value: "vehicles", label: "Vehicles" },
+    { value: "performance-parts", label: "Performance Parts" },
+    { value: "luxury-accessories", label: "Luxury Accessories" },
+    { value: "parts", label: "Parts" },
+    { value: "hybrid-models", label: "Hybrid Models" },
+    { value: "trucks", label: "Trucks" },
+    { value: "watches", label: "Watches" },
+    { value: "jewelry", label: "Jewelry" },
+    { value: "luxury-collections", label: "Luxury Collections" },
+    { value: "love-collection", label: "Love Collection" },
+    { value: "engagement", label: "Engagement" },
+    { value: "complications", label: "Complications" },
+    { value: "charms", label: "Charms" },
+    { value: "bracelets", label: "Bracelets" },
+    { value: "dog-gear", label: "Dog Gear" },
+    { value: "grooming", label: "Grooming" },
+    { value: "harnesses", label: "Harnesses" },
+    { value: "health-wellness", label: "Health & Wellness" },
+    { value: "jordan", label: "Jordan" },
+    { value: "kids", label: "Kids" },
+    { value: "leashes", label: "Leashes" },
+    { value: "men", label: "Men" },
+    { value: "pet-food", label: "Pet Food" },
+    { value: "pharmacy", label: "Pharmacy" },
+    { value: "running", label: "Running" },
+    { value: "shoes", label: "Shoes" },
+    { value: "trail", label: "Trail" },
+    { value: "travel-gear", label: "Travel Gear" },
+    { value: "women", label: "Women" },
   ];
 
   const brandOptions = [
-    { value: "nike", label: "Nike", icon: "👟" },
-    { value: "adidas", label: "Adidas", icon: "🧢" },
-    { value: "puma", label: "Puma", icon: "🐆" },
-    { value: "under_armour", label: "Under Armour", icon: "🦾" },
+    { value: "nike", label: "Nike" },
+    { value: "adidas", label: "Adidas" },
+    { value: "puma", label: "Puma" },
+    { value: "under_armour", label: "Under Armour" },
+    { value: "apple", label: "Apple" },
+    { value: "samsung", label: "Samsung" },
+    { value: "xiaomi", label: "Xiaomi" },
+    { value: "oppo", label: "Oppo" },
+    { value: "oneplus", label: "OnePlus" },
+    { value: "anta", label: "Anta" },
+    { value: "newbalance", label: "NewBalance" },
+    { value: "salomon", label: "Salomon" },
+    { value: "tesla", label: "Tesla" },
+    { value: "bmw", label: "BMW" },
+    { value: "mercedes_benz", label: "Mercedes-Benz" },
+    { value: "toyota", label: "Toyota" },
+    { value: "ford", label: "Ford" },
+    { value: "petsmart", label: "PetSmart" },
+    { value: "petco", label: "Petco" },
+    { value: "chewy", label: "Chewy" },
+    { value: "ruffwear", label: "Ruffwear" },
+    { value: "kurgo", label: "Kurgo" },
+    { value: "rolex", label: "Rolex" },
+    { value: "cartier", label: "Cartier" },
+    { value: "tiffany_and_co", label: "Tiffany & Co." },
+    { value: "patek_philippe", label: "Patek Philippe" },
+    { value: "pandora", label: "Pandora" },
   ];
 
   // Fetch banner data
@@ -274,7 +356,8 @@ const EditBanner = () => {
         }
       );
       console.log("Banner updated:", response.data);
-      alert("Banner updated successfully!");
+
+      nav("/banner/list");
     } catch (error) {
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);

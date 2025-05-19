@@ -23,9 +23,9 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'required|file',
+            'image' => 'nullable|file',
             'small_image' => 'nullable|image',
             'category' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',
@@ -64,9 +64,9 @@ class SliderController extends Controller
     public function update(Request $request, Slider $slider)
     {
         $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
+            'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'sometimes|file',
+            'image' => 'nullable|file',
             'small_image' => 'nullable|image',
             'category' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',

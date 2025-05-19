@@ -6,10 +6,30 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\LogoController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
+
+ 
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+Route::get('/sanctum/csrf-cookie', [\Laravel\Sanctum\Http\Controllers\CsrfCookieController::class, 'show']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/orders', [CheckoutController::class, 'getOrders']);
+Route::delete('/orders/{id}', [CheckoutController::class, 'deleteOrder']);
+Route::post('/checkout', [CheckoutController::class, 'checkout']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [AuthController::class, 'user']);
+});
+
 
 Route::apiResource('logos', LogoController::class);
 
