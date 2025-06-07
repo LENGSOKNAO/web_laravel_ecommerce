@@ -654,10 +654,8 @@ const nav = [
 ];
 
 const user = [
-  { name: "Find a Store", path: "/" },
+  { name: "Find a Orders", path: "/order-history" },
   { name: "Help", path: "/" },
-  { name: "Join Us", path: "/" },
-  { name: "Sign In", path: "/" },
 ];
 
 const icons = [
@@ -939,9 +937,7 @@ const Nav = () => {
       <nav className="flex items-center justify-between px-10 py-1 z-10 relative">
         {/* Logo Section */}
         <div>
-          {isLoading ? (
-            <p>Loading logo...</p>
-          ) : error ? (
+          {error ? (
             <p className="text-red-500">{error}</p>
           ) : logo.length > 0 ? (
             logo.map((item) => (
@@ -1422,4 +1418,3 @@ const Nav = () => {
 };
 
 export default Nav;
-

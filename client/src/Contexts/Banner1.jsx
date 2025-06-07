@@ -12,7 +12,7 @@ const Banner1 = ({ e, n, b }) => {
           .filter((e) => e.status == "1" && e.qty == n && e.category == b)
           .slice(0, 1)
           .map((e, i) => (
-            <div className="relative h-[933.33px]  mx-auto">
+            <div className="relative  mx-auto">
               <img
                 className="w-full h-full object-cover"
                 src={`${import.meta.env.VITE_STORAGE_URL}/${e.image}`}

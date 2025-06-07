@@ -22,7 +22,7 @@ const CreateBanner = () => {
   const [errors, setErrors] = useState({});
 
   // Options data
-  const categoryOptions = [
+ const categoryOptions = [
     { value: "new-arrivals", label: "New Arrivals" },
     { value: "iphone", label: "iPhone" },
     { value: "ipad", label: "iPad" },

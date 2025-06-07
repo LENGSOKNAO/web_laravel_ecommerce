@@ -62,38 +62,37 @@ const Order = () => {
 
   // Delete order
   const handleDeleteOrder = async (orderId) => {
-  try {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/orders/${orderId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    setListOrders((prev) => prev.filter((order) => order.id !== orderId));
-    setSelectedOrders((prev) => prev.filter((id) => id !== orderId));
-    
-  } catch (err) {
-    console.error("Delete Error:", err.response || err.message);
-    const message =
-      err.response?.data?.message || err.message || "Failed to delete order";
-
-    if (err.response?.status === 401) {
-      alert("Session expired. Please log in again.");
-      navigate("/login");
-    } else if (err.response?.status === 403) {
-      alert(
-        "You do not have permission to delete this order. Please contact an admin."
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-    } else {
-      alert(message);
+
+      setListOrders((prev) => prev.filter((order) => order.id !== orderId));
+      setSelectedOrders((prev) => prev.filter((id) => id !== orderId));
+    } catch (err) {
+      console.error("Delete Error:", err.response || err.message);
+      const message =
+        err.response?.data?.message || err.message || "Failed to delete order";
+
+      if (err.response?.status === 401) {
+        alert("Session expired. Please log in again.");
+        navigate("/login");
+      } else if (err.response?.status === 403) {
+        alert(
+          "You do not have permission to delete this order. Please contact an admin."
+        );
+      } else {
+        alert(message);
+      }
     }
-  }
-};
+  };
 
   // Extract unique payment and order statuses
   const uniquePaymentStatuses = [
@@ -456,14 +455,6 @@ const Order = () => {
                           </td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-3">
-                              <img
-                                className="w-8 h-8 object-cover rounded-full"
-                                src={order.customerImage}
-                                alt={order.customerName}
-                                onError={(e) => {
-                                  e.target.src = "https://picsum.photos/200";
-                                }}
-                              />
                               <span className="text-sm text-gray-800">
                                 {order.customerName}
                               </span>
@@ -503,16 +494,16 @@ const Order = () => {
                           <td className="px-4 py-3 text-sm">
                             <span
                               className={`px-2 py-1 rounded text-xs font-medium ${
-                                order.orderStatus === "Delivered"
+                                order.status === "Delivered"
                                   ? "bg-blue-100 text-blue-800"
-                                  : order.orderStatus === "Ready To Pick"
+                                  : order.status === "Ready To Pick"
                                   ? "bg-gray-100 text-gray-800"
-                                  : order.orderStatus === "Dispatched"
+                                  : order.status === "Dispatched"
                                   ? "bg-yellow-100 text-yellow-800"
                                   : "bg-red-100 text-red-800"
                               }`}
                             >
-                              {order.orderStatus}
+                              {order.status}
                             </span>
                           </td>
                           <td className="px-4 py-3 text-center">

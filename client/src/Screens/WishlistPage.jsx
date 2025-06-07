@@ -1,72 +1,104 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../Layouts/Layout";
-import { WishlistContext } from "../Contexts/WishlistContext"; // Fixed path
-import { CartContext } from "../Contexts/CartContext"; // Fixed path
+import { WishlistContext } from "../Contexts/WishlistContext";
+import { CartContext } from "../Contexts/CartContext";
 
 const WishlistPage = () => {
-  const { wishlistItems, removeFromWishlist, getWishlistCount, clearWishlist } = useContext(WishlistContext);
+  const { wishlistItems, removeFromWishlist, getWishlistCount, clearWishlist } =
+    useContext(WishlistContext);
   const { addToCart } = useContext(CartContext);
-  console.log('WishlistContext in WishlistPage:', { wishlistItems, count: getWishlistCount() });
 
   const imageBaseUrl = import.meta.env.VITE_BASE_URL || "http://localhost:8000";
 
   const handleAddToCart = (product) => {
-    console.log('Adding to cart from wishlist:', { product });
-    addToCart(product, null); // No size for wishlist items
+    addToCart(product, null);
   };
 
   return (
     <Layout>
-      <section className="py-10 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-semibold mb-6">Your Wishlist ({getWishlistCount()} items)</h1>
+      <section className="py-20 px-5 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <header className="mb-16">
+            <h1 className="text-3xl font-normal tracking-tight mb-1">
+              Wishlist
+            </h1>
+            <div className="text-xs">{getWishlistCount()} items</div>
+          </header>
+
           {wishlistItems.length === 0 ? (
-            <p className="text-gray-500">
-              Your wishlist is empty. <Link to="/" className="text-blue-500 hover:underline">Continue shopping</Link>.
-            </p>
+            <div className="text-center py-24">
+              <p className="mb-8">No items in wishlist</p>
+              <Link
+                to="/"
+                className="inline-block px-6 py-2 text-sm font-medium text-black border border-black rounded-4xl hover:bg-black hover:text-white transition-colors duration-300"
+              >
+                Return to shop
+              </Link>
+            </div>
           ) : (
-            <div className="flex flex-col gap-6">
-              {wishlistItems.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-4 border-b py-4"
-                >
-                  <img
-                    src={`${imageBaseUrl}/storage/${item.image || 'placeholder-image.jpg'}`}
-                    alt={item.name || 'Unknown Product'}
-                    className="w-20 h-20 object-cover rounded"
-                    onError={(e) => (e.target.src = "/placeholder-image.jpg")}
-                  />
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold">{item.name || 'Unknown Product'}</h2>
-                    <p className="text-gray-600">${item.product_price.toFixed(2)}</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleAddToCart(item)}
-                      className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                    >
-                      Add to Cart
-                    </button>
-                    <button
-                      onClick={() => removeFromWishlist(item.id)}
-                      className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <div className="mt-6">
+            <>
+              <div className="mb-12 text-right  ">
                 <button
                   onClick={clearWishlist}
-                  className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+                  className="px-4 py-2 text-sm font-medium text-red-600   border-red-600 rounded-4xl hover:underline  transition-colors duration-300"
                 >
-                  Clear Wishlist
+                  Clear all items
                 </button>
               </div>
-            </div>
+
+              <ul className="space-y-16">
+                {wishlistItems.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex flex-col sm:flex-row  "
+                  >
+                    <div className="flex w-full gap-10   bg-gray-50">
+                      <img
+                        src={`${imageBaseUrl}/storage/${item.image}`}
+                        alt={item.name}
+                        className="w-[200px] h-[200px]  object-cover"
+                        onError={(e) =>
+                          (e.target.src = "/placeholder-image.jpg")
+                        }
+                      />
+                      <div>
+                        <h2 className="text-lg mb-2">{item.name}</h2>
+                        <div className="text-sm">
+                          ${item.product_price.toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col justify-between">
+                      <div className="mt-6 flex gap-3">
+                        <button
+                          onClick={() => handleAddToCart(item)}
+                          className="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-white bg-black rounded-4xl hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-300"
+                        >
+                          Add to cart
+                        </button>
+                        <button
+                          onClick={() => removeFromWishlist(item.id)}
+                          className="flex-1 sm:flex-none px-6 py-3 text-sm font-medium text-black bg-white border border-black rounded-4xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition-colors duration-300"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-20 pt-8 border-t border-black">
+                <Link
+                  to="/"
+                  className="inline-block px-6 py-2 text-sm font-medium text-black border border-black rounded-4xl hover:bg-black hover:text-white transition-colors duration-300"
+                >
+                  Continue shopping
+                </Link>
+              </div>
+            </>
           )}
         </div>
       </section>

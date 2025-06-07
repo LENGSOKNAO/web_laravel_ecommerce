@@ -24,10 +24,9 @@ const CreateSlider = () => {
 
   // Options data
   const categoryOptions = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "accessories", label: "Accessories" },
-    { value: "furniture", label: "Furniture" },
+    { value: "men", label: "Men" },
+    { value: "women", label: "Women" },
+    { value: "kids", label: "Kids" },
   ];
 
   const brandOptions = [
